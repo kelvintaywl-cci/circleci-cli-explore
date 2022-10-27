@@ -1,0 +1,38 @@
+version: 2.1
+
+executors:
+  main-small:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+
+jobs:
+  test:
+    executor: main-small
+    steps:
+      - run:
+          name:
+          command: |
+            date
+
+            lsb-release -d
+
+            ssh -V
+            openssl --version
+
+            which curl
+      - run: |
+            echo "Current date: $(date)"
+
+            echo "OS info: $(lsb-release -d)"
+
+            echo "SSH and SSL versions...."
+            ssh -V
+            openssl --version
+
+            echo "Checking curl version...."
+            which curl
+workflows:
+  main:
+    jobs:
+      - test
